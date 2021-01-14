@@ -53,7 +53,7 @@ class MyServer(BaseHTTPRequestHandler):
         <h1>RPi Automation</h1>
         <p>Current GPU temperature is {temp}</p>
 
-        <p>Turn All Off: <button type="button" class="btn btn-success" href="/on">On</button> <button type="button" class="btn btn-danger" href="/off">Off</button></p>
+        <p>Turn All Off: <a type="button" class="btn btn-success" href="/on">On</a> <a type="button" class="btn btn-danger" href="/off">Off</a></p>
         <p>Light Main Bedroom: {lightThr}</p>
         <p>Light Red: {lightFou}</p>
         <p>Light One: {lightOne}</p>
@@ -100,27 +100,27 @@ class MyServer(BaseHTTPRequestHandler):
         
         lightOne = ''
         if GPIO.input(12):
-            lightOne='<button type="button" class="btn btn-danger" href="/offOne">Off</button>'
+            lightOne='<a type="button" class="btn btn-danger" href="/offOne">Off</a>'
         else:
-            lightOne='<button type="button" class="btn btn-success" href="/onOne">On</button>'
+            lightOne='<a type="button" class="btn btn-success" href="/onOne">On</a>'
             
         lightTwo = ''
         if GPIO.input(16):
-            lightTwo='<button type="button" class="btn btn-danger" href="/offTwo">Off</button>'
+            lightTwo='<a type="button" class="btn btn-danger" href="/offTwo">Off</a>'
         else:
-            lightTwo='<button type="button" class="btn btn-success" href="/onTwo">On</button>'
+            lightTwo='<a type="button" class="btn btn-success" href="/onTwo">On</a>'
             
         lightThr = ''
         if GPIO.input(20):
-            lightThr = '<button type="button" class="btn btn-danger" href="/offThr">Off</button>'
+            lightThr = '<a type="button" class="btn btn-danger" href="/offThr">Off</a>'
         else:
-            lightThr='<button type="button" class="btn btn-success" href="/onThr">On</button>'
+            lightThr='<a type="button" class="btn btn-success" href="/onThr">On</a>'
             
         lightFou = ''
         if GPIO.input(21):
-            lightFou='<button type="button" class="btn btn-danger" href="/offFou">Off</button>'
+            lightFou='<a type="button" class="btn btn-danger" href="/offFou">Off</a>'
         else:
-            lightFou='<button type="button" class="btn btn-success" href="/onFou">On</button>'
+            lightFou='<a type="button" class="btn btn-success" href="/onFou">On</a>'
 
         self.path = host_name
         self.wfile.write(html.format(temp=temp[5:], led=status, lightOne=lightOne, lightTwo=lightTwo, lightThr=lightThr, lightFou=lightFou).encode("utf-8"))
