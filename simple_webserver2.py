@@ -42,20 +42,31 @@ class MyServer(BaseHTTPRequestHandler):
         
         html = '''
            <html>
-           <body style="width:960px; margin: 20px auto;">
-           <h1>Welcome to my Raspberry Pi</h1>
-           <p>Current GPU temperature is {temp}</p>
-           <p>Turn All Off: <a href="/on">On</a> <a href="/off">Off</a></p>
-           <p>Light Main Bedroom: {lightThr}</p>
-           <p>Light Red: {lightFou}</p>
-           <p>Light One: {lightOne}</p>
-           <p>Light Two: {lightTwo}</p>
-           <div id="led-status"></div>
-           <script>
-               document.getElementById("led-status").innerHTML="{led}";
-           </script>
-           </body>
-           </html>
+<head>
+<title>RPi Automation Page</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+    <div class="container">
+        <h1>RPi Automation</h1>
+        <p>Current GPU temperature is {temp}</p>
+
+        <p>Turn All Off: <button type="button" class="btn btn-success" href="/on">On</button> <button type="button" class="btn btn-danger" href="/off">Off</button></p>
+        <p>Light Main Bedroom: {lightThr}</p>
+        <p>Light Red: {lightFou}</p>
+        <p>Light One: {lightOne}</p>
+        <p>Light Two: {lightTwo}</p>
+        <div id="led-status"></div>
+    </div>
+
+<script>
+    document.getElementById("led-status").innerHTML="{led}";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+</html>
         '''
         temp = os.popen("/opt/vc/bin/vcgencmd measure_temp").read()
         self.do_HEAD()
@@ -89,27 +100,27 @@ class MyServer(BaseHTTPRequestHandler):
         
         lightOne = ''
         if GPIO.input(12):
-            lightOne='<a href="/offOne">Off</a>'
+            lightOne='<button type="button" class="btn btn-danger" href="/offOne">Off</button>'
         else:
-            lightOne='<a href="/onOne">On</a>'
+            lightOne='<button type="button" class="btn btn-success" href="/onOne">On</button>'
             
         lightTwo = ''
         if GPIO.input(16):
-            lightTwo='<a href="/offTwo">Off</a>'
+            lightTwo='<button type="button" class="btn btn-danger" href="/offTwo">Off</button>'
         else:
-            lightTwo='<a href="/onTwo">On</a>'
+            lightTwo='<button type="button" class="btn btn-success" href="/onTwo">On</button>'
             
         lightThr = ''
         if GPIO.input(20):
-            lightThr='<a href="/offThr">Off</a>'
+            lightThr = '<button type="button" class="btn btn-danger" href="/offThr">Off</button>'
         else:
-            lightThr='<a href="/onThr">On</a>'
+            lightThr='<button type="button" class="btn btn-success" href="/onThr">On</button>'
             
         lightFou = ''
         if GPIO.input(21):
-            lightFou='<a href="/offFou">Off</a>'
+            lightFou='<button type="button" class="btn btn-danger" href="/offFou">Off</button>'
         else:
-            lightFou='<a href="/onFou">On</a>'
+            lightFou='<button type="button" class="btn btn-success" href="/onFou">On</button>'
 
         self.path = host_name
         self.wfile.write(html.format(temp=temp[5:], led=status, lightOne=lightOne, lightTwo=lightTwo, lightThr=lightThr, lightFou=lightFou).encode("utf-8"))
