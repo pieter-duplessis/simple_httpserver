@@ -9,7 +9,7 @@ import os
 from time import sleep
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-host_name = '10.0.0.200'  # Change this to your Raspberry Pi IP address
+host_name = '192.168.2.200'  # Change this to your Raspberry Pi IP address
 host_port = 8000
 
 
@@ -46,10 +46,10 @@ class MyServer(BaseHTTPRequestHandler):
            <h1>Welcome to my Raspberry Pi</h1>
            <p>Current GPU temperature is {temp}</p>
            <p>Turn All Off: <a href="/on">On</a> <a href="/off">Off</a></p>
+           <p>Light Main Bedroom: {lightThr}</p>
+           <p>Light Red: {lightFou}</p>
            <p>Light One: {lightOne}</p>
            <p>Light Two: {lightTwo}</p>
-           <p>Light Three: {lightThr}</p>
-           <p>Light Four: {lightFou}</p>
            <div id="led-status"></div>
            <script>
                document.getElementById("led-status").innerHTML="{led}";
@@ -111,6 +111,7 @@ class MyServer(BaseHTTPRequestHandler):
         else:
             lightFou='<a href="/onFou">On</a>'
 
+        self.path = host_name
         self.wfile.write(html.format(temp=temp[5:], led=status, lightOne=lightOne, lightTwo=lightTwo, lightThr=lightThr, lightFou=lightFou).encode("utf-8"))
         
         
